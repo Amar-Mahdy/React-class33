@@ -1,14 +1,14 @@
 import React from "react";
 
-const mainInfo = ({ main, description }) => {
+const mainInfo = ({ city }) => {
   return (
-    <div>
+    <>
       <h4>
-        {main}
+        {city.main}
         <br />
-        <strong style={{ fontWeight: "lighter" }}>{description}</strong>
+        <strong style={{ fontWeight: "lighter" }}>{city.description}</strong>
       </h4>
-    </div>
+    </>
   );
 };
 

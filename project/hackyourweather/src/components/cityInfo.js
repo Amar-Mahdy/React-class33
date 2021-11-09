@@ -1,12 +1,13 @@
 import React from "react";
 
-const cityInfo = ({ city, country }) => {
+const cityInfo = ({ city }) => {
+  const { name, sys } = city;
   return (
-    <div>
+    <>
       <h1>
-        {city},{country}
+        {name},{sys.country}
       </h1>
-    </div>
+    </>
   );
 };
 
