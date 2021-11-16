@@ -1,17 +1,23 @@
 import React from "react";
-import CityInfo from "./cityInfo.js";
-import Forecast from "./forecast";
-import MainInfo from "./mainInfo.js";
+import Header from "./Header.js";
+import Forecast from "./Forecast";
+import MainForecast from "./MainForecast.js";
+import { ImCancelCircle } from "react-icons/im";
 
-const card = ({ city, data }) => {
+const card = ({ city, handleDelete, id }) => {
   return (
-    <>
-      <div>
-        <CityInfo city={city} />
-        <MainInfo city={city.weather[0]} />
-        <Forecast city={city} />
-      </div>
-    </>
+    <div className="card">
+      <button 
+      className="clear-btn"
+      onClick={() => handleDelete(id)}
+      >
+      
+        <ImCancelCircle />
+      </button>
+      <Header city={city} />
+      <MainForecast city={city.weather[0]} />
+      <Forecast city={city} />
+    </div>
   );
 };
 

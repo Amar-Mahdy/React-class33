@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import App from "../../App";
-import { handlers } from "../mock/request";
-import { server } from "../mock/server";
+import { server,rest } from "../mocks/request";
 
 describe("welcome message and header", () => {
   test("show welcome message", () => {
@@ -30,76 +29,71 @@ describe("testing API requests", () => {
     server.close();
   });
 
-  describe("dealing with the requests", () => {
-    beforeAll(() => {
-      server.use(handlers[0]);
+    describe("dealing with the requests", () => {
+       
+        it("loading text while fetching data", async () => {
+        render(<App />);
+        const searchButton = screen.getByRole("button", {
+            name: /click to search/i,
+        });
+        fireEvent.submit(searchButton);
+        const loading = await screen.findByText(/loading/i);
+        expect(loading).toBeInTheDocument();
+        });
+
+        it("No Loading text when getting info", async () => {
+        render(<App />);
+        const searchButton = screen.getByRole("button", {
+            name: /click to search/i,
+        });
+        fireEvent.submit(searchButton);
+        const loading = await screen.findByText(/loading/i);
+
+        const weatherInfo = await screen.findByTestId("min");
+        expect(weatherInfo).toBeInTheDocument();
+        expect(loading).not.toBeInTheDocument();
+        });
     });
 
-    it("loading text while fetching data", async () => {
-      render(<App />);
-      const searchButton = screen.getByRole("button", {
-        name: /click to search/i,
-      });
-      fireEvent.submit(searchButton);
-      const loading = await screen.findByText(/loading/i);
-      expect(loading).toBeInTheDocument();
+    describe("dealing with error", () => {
+        it("it's loading before getting error", async () => {
+        render(<App />);
+        const searchButton = screen.getByRole("button", {
+            name: /click to search/i,
+        });
+        expect(searchButton).toBeInTheDocument();
+        fireEvent.submit(searchButton);
+        const loading = await screen.findByText(/loading/i);
+        expect(loading).toBeInTheDocument();
+        });
+
+        it("Get error When writing invalid city name", async () => {
+        render(<App />);
+        const searchButton = screen.getByRole("button", {
+            name: /click to search/i,
+        });
+        expect(searchButton).toBeInTheDocument();
+        fireEvent.submit(searchButton);
+        const err = await screen.findByText("city not found");
+        expect(err).toBeInTheDocument();
+        });
+
+        it("loading is disappeared after getting error", async () => {
+        server.use(server[1]);
+        render(<App />);
+        const searchButton = screen.getByRole("button", {
+            name: /click to search/i,
+        });
+        expect(searchButton).toBeInTheDocument();
+        fireEvent.submit(searchButton);
+
+        const loading = await screen.findByText(/loading/i);
+        expect(loading).toBeInTheDocument();
+
+        const err = await screen.findByText("city not found");
+        expect(err).toBeInTheDocument();
+
+        expect(loading).not.toBeInTheDocument();
+        });
     });
-
-    it("No Loading text when getting info", async () => {
-      render(<App />);
-      const searchButton = screen.getByRole("button", {
-        name: /click to search/i,
-      });
-      fireEvent.submit(searchButton);
-      const loading = await screen.findByText(/loading/i);
-
-      const weatherInfo = await screen.findByTestId("min");
-      expect(weatherInfo).toBeInTheDocument();
-      expect(loading).not.toBeInTheDocument();
-    });
-  });
-
-  describe("dealing with error", () => {
-    it("it's loading before getting error", async () => {
-      server.use(handlers[1]);
-      render(<App />);
-      const searchButton = screen.getByRole("button", {
-        name: /click to search/i,
-      });
-      expect(searchButton).toBeInTheDocument();
-      fireEvent.submit(searchButton);
-      const loading = await screen.findByText(/loading/i);
-      expect(loading).toBeInTheDocument();
-    });
-
-    it("Get error When writing invalid city name", async () => {
-      server.use(handlers[1]);
-      render(<App />);
-      const searchButton = screen.getByRole("button", {
-        name: /click to search/i,
-      });
-      expect(searchButton).toBeInTheDocument();
-      fireEvent.submit(searchButton);
-      const err = await screen.findByText("city not found");
-      expect(err).toBeInTheDocument();
-    });
-
-    it("loading is disappeared after getting error", async () => {
-      server.use(handlers[1]);
-      render(<App />);
-      const searchButton = screen.getByRole("button", {
-        name: /click to search/i,
-      });
-      expect(searchButton).toBeInTheDocument();
-      fireEvent.submit(searchButton);
-
-      const loading = await screen.findByText(/loading/i);
-      expect(loading).toBeInTheDocument();
-
-      const err = await screen.findByText("city not found");
-      expect(err).toBeInTheDocument();
-
-      expect(loading).not.toBeInTheDocument();
-    });
-  });
 });

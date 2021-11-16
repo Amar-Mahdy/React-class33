@@ -2,7 +2,7 @@
   background-color: rgb(202, 196, 196);
 }
 
-.App {
+.container {
   text-align: center;
 }
 
@@ -58,8 +58,19 @@ label {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .errorMessage {
-  color: red;
+  color: black;
   font-size: 8pt;
   text-align: center;
   font-weight: 300;
 }
+.clear-btn{
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  cursor: pointer;
+  float: right;
+}
+.clear-btn {
+    color: black;
+  }

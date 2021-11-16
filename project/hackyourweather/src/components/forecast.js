@@ -1,21 +1,21 @@
 import React from "react";
 
 const forecast = ({ city }) => {
-  const { main, coord } = city;
+  const {  main, coord } = city;
   const cityLocation = `${coord.lat},${coord.lon}`;
   return (
     <>
-      <div>
+      <span>
         <strong>min temp: </strong> {main.temp_min}
-      </div>
-      <div>
+      </span> <br />
+      <span>
         <strong>max temp: </strong>
         {main.temp_max}
-      </div>
-      <div>
+      </span> <br />
+      <span>
         <strong>location: </strong>
         {cityLocation}
-      </div>
+      </span>
     </>
   );
 };
