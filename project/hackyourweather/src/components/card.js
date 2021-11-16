@@ -4,14 +4,10 @@ import Forecast from "./Forecast";
 import MainForecast from "./MainForecast.js";
 import { ImCancelCircle } from "react-icons/im";
 
-const card = ({ city, handleDelete, id }) => {
+const card = ({ city, handleDelete }) => {
   return (
     <div className="card">
-      <button 
-      className="clear-btn"
-      onClick={() => handleDelete(id)}
-      >
-      
+      <button className="clear-btn" onClick={() => handleDelete(city.id)}>
         <ImCancelCircle />
       </button>
       <Header city={city} />

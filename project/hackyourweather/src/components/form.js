@@ -13,7 +13,7 @@ function Form({ handleCity, handleSubmit, cityName }) {
           value={cityName}
           name="cityName"
         />
-        <button className="btn" type="submit">
+        <button className="btn-d " type="submit">
           click to search
         </button>
       </form>
