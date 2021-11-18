@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { getCelcius } from "../converter/converter";
 
 import {
   XAxis,
@@ -15,22 +14,11 @@ import {
 
 export const CityPage = () => {
   const { cityId } = useParams();
-  const navigate = useNavigate();
   const [data, setData] = useState({});
-
   const [chart, setChart] = useState([]);
+  const navigate = useNavigate();
 
-  const fillData = (data) => {
-    const tempData = [];
-    for (let num = 0; num < data.cnt; num++) {
-      tempData.push({
-        date: getCelcius(data.list[num].dt_txt),
-        temp: parseFloat(data.list[num].main.temp),
-      });
-    }
 
-    setChart(tempData);
-  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,7 +26,7 @@ export const CityPage = () => {
           `https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&units=metric&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`
         );
         const data = await response.json();
-
+        console.log(data);
         setData(data);
         fillData(data);
       } catch (err) {
@@ -46,8 +34,19 @@ export const CityPage = () => {
       }
     };
     fetchData();
-    fillData(data);
   }, [cityId]);
+
+  const fillData = (data) => {
+    const tempData = [];
+    for (let num = 0; num < data.cnt; num++) {
+      tempData.push({
+        date: (data.list[num].dt_txt),
+        temp: parseFloat(data.list[num].main.temp),
+      });
+    }
+    setChart(tempData);
+  };
+
   return (
     <div>
       {chart.length !== 0 && (
