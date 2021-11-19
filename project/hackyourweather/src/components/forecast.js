@@ -1,5 +1,5 @@
 import React from "react";
-import { getCelcius } from "../converter/converter";
+import { getCelcius } from "../utils/utils";
 
 const forecast = ({ city }) => {
   const { coord } = city;

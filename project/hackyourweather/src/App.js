@@ -1,6 +1,6 @@
 import React from "react";
 import WeatherList from "./components/WeatherList";
-import { CityPage } from "./components/cityPage";
+import { CityPage } from "./components/CityPage";
 import { WeatherProvider } from "./components/WeatherContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 

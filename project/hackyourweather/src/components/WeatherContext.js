@@ -1,4 +1,4 @@
-import react, { useState, createContext } from "react";
+import { useState, createContext } from "react";
 
 export const WeatherContext = createContext();
 
@@ -10,7 +10,9 @@ export const WeatherProvider = (props) => {
 
   const URL = `http://api.openweathermap.org/data/2.5/weather?units=metric&q=${cityName}&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`;
 
-  const getWeather = async () => {
+  const getWeather = async (e) => {
+    setIsLoading(true);
+
     try {
       const response = await fetch(URL);
       const weather = await response.json();
@@ -18,6 +20,8 @@ export const WeatherProvider = (props) => {
         setErrMsg(weather.message);
         throw new Error(weather.message);
       } else {
+        setIsLoading(true);
+
         setData([...data, weather]);
         setErrMsg(null);
       }
@@ -31,7 +35,7 @@ export const WeatherProvider = (props) => {
 
   return (
     <WeatherContext.Provider
-      value={[
+      value={{
         data,
         setData,
         cityName,
@@ -41,8 +45,7 @@ export const WeatherProvider = (props) => {
         setIsLoading,
         errMsg,
         setErrMsg,
-        setIsLoading,
-      ]}
+      }}
     >
       {props.children}
     </WeatherContext.Provider>

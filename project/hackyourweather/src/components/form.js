@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { WeatherContext } from "./WeatherContext";
 
-function Form({ handleCity, handleSubmit, cityName }) {
+function Form() {
+  const { cityName, setCityName, getWeather } = useContext(WeatherContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (cityName !== "") {
+      getWeather();
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -9,7 +19,7 @@ function Form({ handleCity, handleSubmit, cityName }) {
           type="text"
           className="form-control"
           placeholder="e.g Groningen"
-          onChange={handleCity}
+          onChange={(e) => setCityName(e.target.value)}
           value={cityName}
           name="cityName"
         />
