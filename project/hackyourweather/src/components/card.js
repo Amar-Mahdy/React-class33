@@ -6,6 +6,7 @@ import MainForecast from "./MainForecast.js";
 import { ImCancelCircle } from "react-icons/im";
 
 const Card = ({ city }) => {
+    console.log(city);
   const { setData, data } = useContext(WeatherContext);
 
   const handleDelete = (id) => {

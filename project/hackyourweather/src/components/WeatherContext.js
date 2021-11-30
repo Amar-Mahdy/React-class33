@@ -16,12 +16,11 @@ export const WeatherProvider = (props) => {
     try {
       const response = await fetch(URL);
       const weather = await response.json();
-      if (response.status !== 200 || !response.ok) {
+      if (response.status !== 200 || !response.ok || this.value === "") {
         setErrMsg(weather.message);
         throw new Error(weather.message);
       } else {
         setIsLoading(true);
-
         setData([...data, weather]);
         setErrMsg(null);
       }
